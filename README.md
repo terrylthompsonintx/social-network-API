@@ -1,5 +1,5 @@
 
-  ![CCO Logo](./assets/images/mit.png)
+  
   # Social-Network-API
   ### Table of Contents
   1. [Program Description.](#program-description)
