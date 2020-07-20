@@ -14,8 +14,8 @@ const ReactionSchema = new Schema(
       trim:true
     },
     writtenBy: {
-      type: String,
-      required: true,
+      type: Schema.Types.ObjectId,
+      ref: 'User'
     },
     createdAt: {
       type: Date,
@@ -31,10 +31,6 @@ const ReactionSchema = new Schema(
 );
 const ThoughtSchema = new Schema(
   {
-    writtenBy: {
-      type: String,
-      required: true
-    },
     thoughtBody: {
       type: String,
       required: true

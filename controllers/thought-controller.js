@@ -4,10 +4,11 @@ const thoughtController = {
   // add thought to user
  
   addthought({ params, body }, res) {
-    console.log(body);
-    thought.create(body)
+    console.log(body, params.userId);
+    Thought.create(body)
       .then(({ _id }) => {
-        return user.findOneAndUpdate(
+          console.log('hit',params.userId   );
+        return User.findOneAndUpdate(
           { _id: params.userId },
           { $push: { thoughts: _id } },
           { new: true }
@@ -24,7 +25,7 @@ const thoughtController = {
   },
 
   addreaction({ params, body }, res) {
-    thought.findOneAndUpdate(
+    Thought.findOneAndUpdate(
       { _id: params.thoughtId },
       { $push: { replies: body } },
       { new: true, runValidators: true }
@@ -40,7 +41,7 @@ const thoughtController = {
   },
 
   removereaction({ params }, res) {
-    thought.findOneAndUpdate(
+    Thought.findOneAndUpdate(
       { _id: params.thoughtId },
       { $pull: { replies: { reactionId: params.reactionId } } },
       { new: true }
@@ -51,12 +52,12 @@ const thoughtController = {
   
   // remove thought
   removethought({ params }, res) {
-    thought.findOneAndDelete({ _id: params.thoughtId })
+    Thought.findOneAndDelete({ _id: params.thoughtId })
       .then(deletedthought => {
         if (!deletedthought) {
           return res.status(404).json({ message: 'No thought with this id!' });
         }
-        return user.findOneAndUpdate(
+        return User.findOneAndUpdate(
           { _id: params.userId },
           { $pull: { thoughts: params.thoughtId } },
           { new: true }
